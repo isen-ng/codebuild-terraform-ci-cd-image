@@ -7,7 +7,12 @@ set -e
 # Copy Terraform working directory
 mkdir -p artifact/${TF_WORKING_DIR}
 if [ "$TF_WORKING_DIR" != "" ]; then
-    cp -r ${TF_WORKING_DIR}/* artifact/${TF_WORKING_DIR}
+	# do not include * wildcard to also copy hidden files and directories
+	# According to https://learn.hashicorp.com/terraform/development/running-terraform-in-automation#plan-and-apply-on-different-machines
+	# > After plan completes, archive the entire working directory, including the .terraform 
+	# > subdirectory created during init, and save it somewhere where it will be available 
+	# > to the apply step
+    cp -r ${TF_WORKING_DIR}/ artifact/${TF_WORKING_DIR}
 fi
 # Create metadata.json file
 jq -n "{

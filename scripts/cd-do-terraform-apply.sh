@@ -23,8 +23,8 @@ cd $CI_PWD
 if [ "$TF_WORKING_DIR" != "" ]; then
     cd $TF_WORKING_DIR
 
+    # No need to init again because providers and modules are now contained within the zip
     # Do Terraform Apply from terraform.tfplan
-    terraform init -no-color
     terraform apply ${OLDPWD}/terraform.tfplan -no-color
 
     rm -rf .terraform
